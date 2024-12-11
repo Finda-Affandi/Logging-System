@@ -64,15 +64,7 @@ def setup_logger():
     # Cek ketersediaan logger
     if logging.getLogger("app").hasHandlers():
         return logging.getLogger("app")
-
-    # Membuat logger
-    logger = logging.getLogger("app")
-    logger.setLevel(logging.INFO)
-
-    # Formatting log
-    log_format = "%(asctime)s - %(levelname)s - %(file)s - %(func)s - %(message)s"
-    formatter = logging.Formatter(log_format)
-
+    
     # Pastikan folder logs ada
     os.makedirs(log_dir, exist_ok=True)
 
@@ -88,9 +80,15 @@ def setup_logger():
 
     # Ubah nama file setelah rotasi agar filename mudah di format
     file_handler.namer = lambda name: name.replace(initial_log_name, "")
-
-    # Set format untuk log
+    
+    # Formatting log
+    log_format = "%(asctime)s - %(levelname)s - %(file)s - %(func)s - %(message)s"
+    formatter = logging.Formatter(log_format)
     file_handler.setFormatter(formatter)
+
+    # Membuat logger
+    logger = logging.getLogger("app")
+    logger.setLevel(logging.INFO)
 
     # Tambahkan handler ke logger
     logger.addHandler(file_handler)
